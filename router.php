@@ -5,7 +5,6 @@ require_once 'app/controllers/itemsApiController.php';
 $router = new Router();
 
 // tabla de ruteo
-$router->addRoute('test', 'GET', 'itemsApiController', 'test');
 $router->addRoute('items', 'GET', 'itemsApiController', 'get');
 $router->addRoute('items/:ID', 'GET', 'itemsApiController', 'get');
 

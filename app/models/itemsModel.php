@@ -20,9 +20,10 @@ class itemsModel{
         return $cat;
     }
 
-    function getAllItems(){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo 
+    function getAllItems($order, $column){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo 
+
         $db = $this->conect();
-        $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id ORDER BY raza.nombre ASC");
+        $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id ORDER BY raza.$column $order");
     
         $sentencia->execute();
         $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
@@ -35,6 +36,16 @@ class itemsModel{
         $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id WHERE raza.id = ?");
         
         $sentencia->execute(array($id));
+        $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        return $razas;
+    }
+
+    function getItemsOfCat($id_especie_fk){
+        $db = $this->conect();
+
+        $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id WHERE raza.id_especie_fk = ? ORDER BY raza.nombre ASC");
+        
+        $sentencia->execute(array($id_especie_fk));
         $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
         return $razas;
     }
