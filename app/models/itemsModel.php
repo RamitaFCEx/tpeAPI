@@ -40,12 +40,12 @@ class itemsModel{
         return $razas;
     }
 
-    function getItemsOfCat($id_especie_fk){
+    function getItemsOfCat($id_especie_fk, $order, $column){
         $db = $this->conect();
 
-        $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id WHERE raza.id_especie_fk = ? ORDER BY raza.nombre ASC");
+        $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id WHERE raza.id_especie_fk = ? ORDER BY raza.? ?");
         
-        $sentencia->execute(array($id_especie_fk));
+        $sentencia->execute(array($id_especie_fk, $column, $order));
         $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
         return $razas;
     }

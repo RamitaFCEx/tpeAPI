@@ -14,6 +14,8 @@ class itemsApiController{
     }
 
     public function get($params = []) {
+        $order="ASC";
+        $column="nombre";
         if(isset($params[':ID'])){
             $id = $params[':ID'];
             $item = $this->model->getOneItem($id);
@@ -24,8 +26,16 @@ class itemsApiController{
             $this->view->response("El item con el id=$id no existe", 404);
 
         }else if(isset($_GET['id_especie_fk'])){
+            if(isset($_GET['order']) && $_GET['order']=="DESC"){
+                $order=$_GET['order'];
+            }
+
+            if(isset($_GET['column']) && ($_GET['column']=="id" || $_GET['column']=="color" || $_GET['column']=="descripcion" || $_GET['column']=="id_especie_fk")){
+                $column=$_GET['column'];
+            }
+
             $especie  = $_GET['id_especie_fk'];
-            $item = $this->model->getItemsOfCat($especie);
+            $item = $this->model->getItemsOfCat($especie, $order, $column);
             if(!empty($item)) {
                 return $this->view->response($item,200);
             }
@@ -33,9 +43,8 @@ class itemsApiController{
             $this->view->response("El item con el id=$especie no existe", 404);
 
         }else if(empty($params)){
-            $order="ASC";
-            $column="nombre";
-            if(isset($_GET['order']) && ($_GET['order']=="ASC" || $_GET['order']=="DESC")){
+            
+            if(isset($_GET['order']) && $_GET['order']=="DESC"){
                 $order=$_GET['order'];
             }
 
@@ -63,7 +72,7 @@ class itemsApiController{
             }
         }
         else
-        $this->view->response("Task id=$id not found", 404);
+        $this->view->response("item id=$id not found", 404);
     }
 
     public function post($params = []){
@@ -106,7 +115,7 @@ class itemsApiController{
             }
         }
         else
-        $this->view->response("Task id=$id not found", 404);
+        $this->view->response("item id=$id not found", 404);
        
     }
 

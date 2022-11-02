@@ -29,11 +29,12 @@ los items de la tabla raza cuyo id_especie_fk=$numero
 al agregar "/items?oreder=ASC" o "/items?oreder=DESC" se puede ordenar el 
 JSON que contiene todos los items de la tabla raza de la base de datos, de manera ascendente o descendente.
 Por defecto se ordena ASC
+No se aceptan otros valores, se actua por defecto
  
 al agregar "items?column=id" o "items?column=color" o "items?column=descripcion" o "items?column=id_especie_fk" se puede elegir la columna que se va a tener en 
 cuenta para realizar el ordenamiento de los items de la tabla raza de la base de datos.
 Por defecto se ordena segun la columna nombre
-
+No se aceptan otros valores, se actua por defecto
 
 USANDO POST:
  al agregar "/items" y usando un JSON aceptable, se pueden crear items, siempre y
