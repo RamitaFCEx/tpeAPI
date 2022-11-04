@@ -121,10 +121,8 @@ class itemsApiController{
                 $item = $this->model->getAllItems($queryInfo->column, $queryInfo->order, $queryInfo->offset, $queryInfo->lenght);
             }
         }
-
         $this->printQueryResult($item, $queryInfo);
     }
-
 
     public function deleteItem($params = []){
         $id = $params[':ID'];
@@ -148,17 +146,9 @@ class itemsApiController{
         
     }
 
-
-
-
-
     private function checkVoidInputs($body){
         return !(empty($body->nombre) || empty($body->color) || empty($body->descripcion) || empty($body->especie) || ctype_space($body->nombre) || ctype_space($body->color) || ctype_space($body->descripcion) || ctype_space($body->especie));
     }
-
-
-
-
 
     public function post($params = []){
         $body = $this->getData();
@@ -181,11 +171,6 @@ class itemsApiController{
             $this->view->response("No existe la categoria con id=$body->especie", 400);
         }
     }
-
-
-
-
-
 
     public function put($params = []){
         $id = $params[':ID'];
