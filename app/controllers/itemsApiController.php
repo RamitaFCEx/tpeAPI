@@ -34,8 +34,6 @@ class itemsApiController{
                 $queryInfo->reason = "{Parametro column}";
             }
         }
-
-        
     }
 
     private function printQueryResult($item, $queryInfo){
@@ -50,17 +48,20 @@ class itemsApiController{
 
     private function getOne($params, $queryInfo){
         $id = $params[':ID'];
-        if(is_numeric($id)){
-            return $this->model->getOneItem($id);
-        }else{
+        $this->checkGets($queryInfo);
+        if(!is_numeric($id)){
             $queryInfo->valido = false;
             $queryInfo->reason = "{Parametro ID}";
+        }
+
+        if ($queryInfo->valido) {
+            return $this->model->getOneItem($id);
         }
         return null;
     }
 
     private function getGroup($especie, $queryInfo){
-            $especie = ucfirst($especie);
+            $especie = ucwords($especie);
             $this->checkGets($queryInfo);
 
             if(is_numeric($especie)){
