@@ -20,15 +20,26 @@ class itemsModel{
         return $cat;
     }
 
-    function getAllItems($order, $column){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo 
-
+    function getAllItems($column, $order){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
         $db = $this->conect();
-        $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id ORDER BY raza.$column $order");
+        $sentencia = $db->prepare( "SELECT raza.id,raza.nombre,raza.color,raza.descripcion,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id ORDER BY $column $order");
     
         $sentencia->execute();
         $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
         return $razas;
     }
+
+    function getItemsOfCat($id_especie_fk, $column, $order){
+        $db = $this->conect();
+        $sentencia = $db->prepare( "SELECT raza.id,raza.nombre,raza.color,raza.descripcion,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id WHERE especie.nombre = ? ORDER BY $column $order");
+        
+        $sentencia->execute(array($id_especie_fk));
+        $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        return $razas;
+    }
+
+
+
 
     function getOneItem($id){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
         $db = $this->conect();
@@ -39,17 +50,6 @@ class itemsModel{
         $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
         return $razas;
     }
-
-    function getItemsOfCat($id_especie_fk, $order, $column){
-        $db = $this->conect();
-
-        $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id WHERE raza.id_especie_fk = ? ORDER BY raza.? ?");
-        
-        $sentencia->execute(array($id_especie_fk, $column, $order));
-        $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-        return $razas;
-    }
-
 
     function deleteItem($id){
         $db = $this->conect();

@@ -13,53 +13,105 @@ class itemsApiController{
         $this->data = file_get_contents("php://input");
     }
 
-    public function get($params = []) {
-        $order="ASC";
-        $column="nombre";
-        if(isset($params[':ID'])){
-            $id = $params[':ID'];
-            $item = $this->model->getOneItem($id);
-            if(!empty($item)) {
-                return $this->view->response($item,200);
-            }
-            else 
-            $this->view->response("El item con el id=$id no existe", 404);
+    private function checkGets($queryInfo){//checkea los gets posibles e invalida la peticion en caso de bad request
+        $columnasItem = array("id", "nombre", "color", "descripcion");
+        $columnasCat = array("especie");
 
-        }else if(isset($_GET['id_especie_fk'])){
-            if(isset($_GET['order']) && $_GET['order']=="DESC"){
-                $order=$_GET['order'];
-            }
+        if(isset($_GET['order']) && (strtoupper($_GET['order'])=="DESC" || strtoupper($_GET['order'])=="ASC")){
+            $queryInfo->order = $_GET['order'];
+        }else if(isset($_GET['order'])){
+            $queryInfo->valido = false;
+            $queryInfo->reason = "{Parametro order}";
+        }
 
-            if(isset($_GET['column']) && ($_GET['column']=="id" || $_GET['column']=="color" || $_GET['column']=="descripcion" || $_GET['column']=="id_especie_fk")){
-                $column=$_GET['column'];
+        if(isset($_GET['column'])){
+            if(in_array(strtolower($_GET['column']), $columnasItem)){
+                $queryInfo->column = "raza.".$_GET['column'];
+            }else if(in_array($_GET['column'], $columnasCat)){
+                $queryInfo->column = "especie.nombre";
+            } else {
+                $queryInfo->valido = false;
+                $queryInfo->reason = "{Parametro column}";
             }
+        }
 
-            $especie  = $_GET['id_especie_fk'];
-            $item = $this->model->getItemsOfCat($especie, $order, $column);
-            if(!empty($item)) {
-                return $this->view->response($item,200);
-            }
-            else 
-            $this->view->response("El item con el id=$especie no existe", 404);
+        
+    }
 
-        }else if(empty($params)){
-            
-            if(isset($_GET['order']) && $_GET['order']=="DESC"){
-                $order=$_GET['order'];
-            }
-
-            if(isset($_GET['column']) && ($_GET['column']=="id" || $_GET['column']=="color" || $_GET['column']=="descripcion" || $_GET['column']=="id_especie_fk")){
-                $column=$_GET['column'];
-            }
-
-            $items = $this->model->getAllItems($order, $column);
-            if(!empty($items)) {
-                return $this->view->response($items,200);
-            }
-            else 
-            $this->view->response("Error, no se han encontrado items", 404);
+    private function printQueryResult($item, $queryInfo){
+        if(!empty($item)) {
+            return $this->view->response($item,200);
+        }else if($queryInfo->valido){
+            $this->view->response("No se encontro en la base de datos", 404);
+        }else{
+            $this->view->response("Bad request, parametro recibido por GET no valido en $queryInfo->reason", 400);
         }
     }
+
+    private function getOne($params, $queryInfo){
+        $id = $params[':ID'];
+        if(is_numeric($id)){
+            return $this->model->getOneItem($id);
+        }else{
+            $queryInfo->valido = false;
+            $queryInfo->reason = "{Parametro ID}";
+        }
+        return null;
+    }
+
+    private function getGroup($especie, $queryInfo){
+            $especie = ucfirst($especie);
+            $this->checkGets($queryInfo);
+
+            if(is_numeric($especie)){
+                $queryInfo->valido = false;
+                $queryInfo->reason = "{Parametro especie}";
+            }
+
+            if($queryInfo->valido){
+                return $this->model->getItemsOfCat($especie, $queryInfo->column, $queryInfo->order);
+            }
+            return null;
+    }
+
+    public function get($params = []) {
+        $item = [];
+        $queryInfo = new stdClass();
+        $queryInfo->valido = true;
+        $queryInfo->column = "raza.nombre";
+        $queryInfo->order = "ASC";
+        $queryInfo->reason = "valid";
+
+        if(isset($params[':ID'])){//uno solo
+            $item = $this->getOne($params, $queryInfo);
+
+        }else if(isset($_GET['especie'])){//pide por especie
+            $especie = $_GET['especie'];
+            $item = $this->getGroup($especie, $queryInfo);
+
+        }else if(empty($params)){//trae todos los animales
+            $this->checkGets($queryInfo);
+            if($queryInfo->valido){    
+                $item = $this->model->getAllItems($queryInfo->column, $queryInfo->order);
+            }
+        }
+
+        $this->printQueryResult($item, $queryInfo);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function deleteItem($params = []){
         $id = $params[':ID'];
