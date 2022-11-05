@@ -20,14 +20,28 @@ class itemsModel{
         return $cat;
     }
 
-    function getAllItems($column, $order, $offset, $lenght){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
+    function getAllItems($column, $order){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
         $db = $this->conect();
         $sentencia = $db->prepare( "SELECT raza.id,raza.nombre,raza.color,raza.descripcion,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id ORDER BY $column $order");
     
         $sentencia->execute();
         $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-        return array_slice($razas, $offset, $lenght);
+        return $razas;
     }
+
+
+    function getNombreDeColumnas(){
+        $db = $this->conect();
+        $sentencia = $db->prepare( "SELECT TABLE_NAME, COLUMN_NAME, COLUMNPROPERTY(OBJECT_ID(TABLE_SCHEMA + '.' + TABLE_NAME), COLUMN_NAME, 'ColumnID') AS COLUMN_ID  
+        FROM AdventureWorks2012.INFORMATION_SCHEMA.COLUMNS  
+        WHERE TABLE_NAME = 'Person';");
+    
+        $sentencia->execute();
+        $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        return $razas;
+    }
+
+    
 
     function getItemsOfCat($id_especie_fk, $column, $order){
         $db = $this->conect();

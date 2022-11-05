@@ -14,39 +14,39 @@ REGLAS DE LA BASE DE DATOS:
 de la tabla especie de la base de dato
 
 para usar la API se debe usar la siguiente url
-http://localhost/web2/tpeAPI/api
+http://localhost/web2/tpeAPI/api/animales
 
 USANDO GET:
-al agregar "/items" se obtiene un JSON que contiene todos los items de la tabla
-razas de la base de datos
+se obtiene un JSON que contiene todos los items de la tabla razas de la base de datos
 
-al agregar "/tems/$numero" se obtiene un JSON que contiene el item de la tabla
-raza cuyo id = $numero
+al agregar "/$numero" se obtiene un JSON que contiene el item de la tabla
+raza cuyo id = $numero.
+Solo se aceptan valores numericos, otros tipos de datos son un bad request
 
-al agregar "/items?id_especie_fk=$numero" se obtiene un JSON que contiene todos
-los items de la tabla raza cuyo id_especie_fk=$numero
+al agregar "?especie=$nombreEspecie" se obtiene un JSON que contiene todos
+los items de la tabla raza que pertenezcan a la especie buscada.
+Solo se aceptan valores string, otros tipos de datos son un bad request
 
-al agregar "/items?oreder=ASC" o "/items?oreder=DESC" se puede ordenar el 
-JSON que contiene todos los items de la tabla raza de la base de datos, de manera ascendente o descendente.
+al agregar "?order=ASC" o "?order=DESC" o "?order=asc" o "?order=desc" se puede ordenar el JSON que contiene todos los items buscados, de manera ascendente o descendente.
 Por defecto se ordena ASC
-No se aceptan otros valores, se actua por defecto
+No se aceptan otros valores, en cuyo caso es un bad request
  
-al agregar "items?column=id" o "items?column=color" o "items?column=descripcion" o "items?column=id_especie_fk" se puede elegir la columna que se va a tener en 
-cuenta para realizar el ordenamiento de los items de la tabla raza de la base de datos.
+al agregar "?column=id" o "?column=nombre" o "?column=color" o "?column=descripcion" o "?column=especie" se puede elegir la columna que se va a tener en cuenta para realizar el ordenamiento de los items de la tabla raza de la base de datos.
 Por defecto se ordena segun la columna nombre
-No se aceptan otros valores, se actua por defecto
+No se aceptan otros valores, en cuyo caso es un bad request
 
 USANDO POST:
- al agregar "/items" y usando un JSON aceptable, se pueden crear items, siempre y
+usando un JSON aceptable, se pueden crear items, siempre y
 cuando se respeten las reglas de la base de datos
 
 USANDO PUT:
-al agregar "/items/$numero" se puede modificar el item cuyo id coincida con $numero,
-siempre y cuando se respeten las reglas de la base de datos
+al agregar "/$numero" se puede modificar el item cuyo id coincida con $numero,
+siempre y cuando se respeten las reglas de la base de datos.
+Solo se aceptan valores numericos, otros tipos de datos son un bad request
 
 USANDO DELETE:
-al agregar "/items/$numero" se puede borrar el item cuyo id coincida con $numero
-
+al agregar "/$numero" se puede borrar el item cuyo id coincida con $numero
+Solo se aceptan valores numericos, otros tipos de datos son un bad request
 
 
 

@@ -33,7 +33,7 @@ class itemsApiController{
         if(isset($_GET['column'])){
             if(in_array(strtolower($_GET['column']), $columnasItem)){
                 $queryInfo->column = "raza.".$_GET['column'];
-            }else if(in_array($_GET['column'], $columnasCat)){
+            }else if(in_array(strtolower($_GET['column']), $columnasCat)){
                 $queryInfo->column = "especie.nombre";
             } else {
                 $queryInfo->valido = false;
@@ -115,10 +115,12 @@ class itemsApiController{
             $item = $this->getGroup($especie, $queryInfo);
 
         }else if(empty($params)){//trae todos los animales
-            
             $this->checkGets($queryInfo);
             if($queryInfo->valido){    
-                $item = $this->model->getAllItems($queryInfo->column, $queryInfo->order, $queryInfo->offset, $queryInfo->lenght);
+                $item = $this->model->getAllItems($queryInfo->column, $queryInfo->order);
+                $item = array_slice($item, $queryInfo->offset, $queryInfo->lenght);
+
+                $item = $this->model->getNombreDeColumnas();
             }
         }
         $this->printQueryResult($item, $queryInfo);
@@ -147,7 +149,7 @@ class itemsApiController{
     }
 
     private function checkVoidInputs($body){
-        return !(empty($body->nombre) || empty($body->color) || empty($body->descripcion) || empty($body->especie) || ctype_space($body->nombre) || ctype_space($body->color) || ctype_space($body->descripcion) || ctype_space($body->especie));
+        return (empty($body->nombre) || empty($body->color) || empty($body->descripcion) || empty($body->especie) || ctype_space($body->nombre) || ctype_space($body->color) || ctype_space($body->descripcion) || ctype_space($body->especie));
     }
 
     public function post($params = []){
@@ -189,7 +191,7 @@ class itemsApiController{
                                             $body->descripcion, 
                                             $body->especie, 
                                             $id);
-                    $this->view->response($this->model->getOneItem($id), 200);
+                    $this->view->response($this->model->getOneItem($id), 201);
                 }
                 else
                 $this->view->response("No existe la categoria con id=$body->especie", 400);
