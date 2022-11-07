@@ -2,13 +2,11 @@
 class itemsModel{
 
     function conect(){
-        try{
-            $db = new PDO('mysql:host=localhost;'
+        
+        $db = new PDO('mysql:host=localhost;'
                      .'dbname=db_zooDigital; charset=utf8', 'root','');
-            return $db;
-        }catch(PDOException  $ex){
-            header(HOME);
-        }
+        return $db;
+        
     }
 
     function getCat($id){
@@ -30,16 +28,16 @@ class itemsModel{
     }
 
 
-    function getNombreDeColumnas(){
-        $db = $this->conect();
-        $sentencia = $db->prepare( "SELECT TABLE_NAME, COLUMN_NAME, COLUMNPROPERTY(OBJECT_ID(TABLE_SCHEMA + '.' + TABLE_NAME), COLUMN_NAME, 'ColumnID') AS COLUMN_ID  
-        FROM AdventureWorks2012.INFORMATION_SCHEMA.COLUMNS  
-        WHERE TABLE_NAME = 'Person';");
+    // function getNombreDeColumnas(){
+    //     $db = $this->conect();
+    //     $sentencia = $db->prepare( "SELECT TABLE_NAME, COLUMN_NAME, COLUMNPROPERTY(OBJECT_ID(TABLE_SCHEMA + '.' + TABLE_NAME), COLUMN_NAME, 'ColumnID') AS COLUMN_ID  
+    //     FROM AdventureWorks2012.INFORMATION_SCHEMA.COLUMNS  
+    //     WHERE TABLE_NAME = 'Person';");
     
-        $sentencia->execute();
-        $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-        return $razas;
-    }
+    //     $sentencia->execute();
+    //     $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
+    //     return $razas;
+    // }
 
     
 

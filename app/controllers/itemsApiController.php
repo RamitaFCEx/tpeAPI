@@ -120,7 +120,6 @@ class itemsApiController{
                 $item = $this->model->getAllItems($queryInfo->column, $queryInfo->order);
                 $item = array_slice($item, $queryInfo->offset, $queryInfo->lenght);
 
-                $item = $this->model->getNombreDeColumnas();
             }
         }
         $this->printQueryResult($item, $queryInfo);
@@ -149,14 +148,21 @@ class itemsApiController{
     }
 
     private function checkVoidInputs($body){
-        return (empty($body->nombre) || empty($body->color) || empty($body->descripcion) || empty($body->especie) || ctype_space($body->nombre) || ctype_space($body->color) || ctype_space($body->descripcion) || ctype_space($body->especie));
+        foreach ($body as $k => $v) {
+            if (empty($v) || $v==null ){
+                return true; 
+            }else if (!is_numeric($v) && ctype_space($v)){
+                return true; 
+            }
+        }
+        return false;
     }
 
-    public function post($params = []){
+    public function post($params = null){
         $body = $this->getData();
 
         if($this->checkVoidInputs($body)){
-            $this->view->response("Complete los datos", 400);
+            $this->view->response("Complete los datos ", 400);
         }
         else{
             $category = $this->model->getCat($body->especie);
@@ -182,7 +188,7 @@ class itemsApiController{
             $body = $this->getData();
 
             if($this->checkVoidInputs($body)){//los campos deben estar completos
-                $this->view->response("Complete los datos", 400);
+                $this->view->response("Complete todos los campos", 400);
             }else{
                 $category = $this->model->getCat($body->especie);
                 if(!empty($category)){//tiene que existir la categoria
