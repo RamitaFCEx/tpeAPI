@@ -12,7 +12,7 @@ $router->addRoute('animales', 'POST', 'animalesApiController', 'post');
 
 $router->addRoute('animales/:ID', 'PUT', 'animalesApiController', 'put');
 
-$router->addRoute('animales/:ID', 'DELETE', 'animalesApiController', 'deleteItem');
+$router->addRoute('animales/:ID', 'DELETE', 'animalesApiController', 'delete');
 
 
 // rutea

@@ -58,9 +58,9 @@ class animalesApiController{
         }
     }
 
-    private function printQueryResult($item, $queryInfo){
-        if(!empty($item)) {
-            return $this->view->response($item,200);
+    private function printQueryResult($animal, $queryInfo){
+        if(!empty($animal)) {
+            return $this->view->response($animal,200);
         }else if($queryInfo->valido){
             $this->view->response("No se encontro en la base de datos", 404);
         }else{
@@ -77,7 +77,7 @@ class animalesApiController{
         }
 
         if ($queryInfo->valido) {
-            return $this->model->getOneItem($id);
+            return $this->model->getOneAnimal($id);
         }
         return null;
     }
@@ -92,13 +92,13 @@ class animalesApiController{
             }
 
             if($queryInfo->valido){
-                return $this->model->getItemsOfCat($especie, $queryInfo->column, $queryInfo->order);
+                return $this->model->getAnimalOfCat($especie, $queryInfo->column, $queryInfo->order);
             }
             return null;
     }
 
     public function get($params = []) {
-        $item = [];
+        $animal = [];
         $queryInfo = new stdClass();
         $queryInfo->valido = true;
         $queryInfo->column = "raza.nombre";
@@ -108,39 +108,39 @@ class animalesApiController{
         $queryInfo->lenght = null;
 
         if(isset($params[':ID'])){//uno solo
-            $item = $this->getOne($params, $queryInfo);
+            $animal = $this->getOne($params, $queryInfo);
 
         }else if(isset($_GET['especie'])){//pide por especie
             $especie = $_GET['especie'];
-            $item = $this->getGroup($especie, $queryInfo);
+            $animal = $this->getGroup($especie, $queryInfo);
 
         }else if(empty($params)){//trae todos los animales
             $this->checkGets($queryInfo);
             if($queryInfo->valido){    
-                $item = $this->model->getAllItems($queryInfo->column, $queryInfo->order);
-                $item = array_slice($item, $queryInfo->offset, $queryInfo->lenght);
-
+                $animal = $this->model->getAllAnimal($queryInfo->column, $queryInfo->order);
+                $animal = array_slice($animal, $queryInfo->offset, $queryInfo->lenght);
+                
             }
         }
-        $this->printQueryResult($item, $queryInfo);
+        $this->printQueryResult($animal, $queryInfo);
     }
 
-    public function deleteItem($params = []){
+    public function delete($params = []){
         $id = $params[':ID'];
 
         if(is_numeric($id)){
-            $item = $this->model->getOneItem($id);
-            if (!empty($item)) {
-                $this->model->deleteItem($id);
-                $item = $this->model->getOneItem($id);
-                if(!$item){
-                    $this->view->response("Item id=$id eliminado con éxito", 200);
+            $animal = $this->model->getOneAnimal($id);
+            if (!empty($animal)) {
+                $this->model->deleteAnimal($id);
+                $animal = $this->model->getOneAnimal($id);
+                if(!$animal){
+                    $this->view->response("Animal id=$id eliminado con éxito", 200);
                 }else{
                     $this->view->response("El servidor no pudo borrar por una falla interna", 500);
                 }
             }
             else
-            $this->view->response("item id=$id not found", 404);
+            $this->view->response("Animal id=$id not found", 404);
         }else
         $this->view->response("Solo se aceptan id numericos", 400);
 
@@ -167,13 +167,13 @@ class animalesApiController{
         else{
             $category = $this->model->getCat($body->especie);
             if(!empty($category)){
-                $id = $this->model->addItem($body->nombre, 
+                $id = $this->model->addAnimal($body->nombre, 
                                             $body->color, 
                                             $body->descripcion, 
                                             $body->especie);
 
-                $item = $this->model->getOneItem($id);
-                $this->view->response($item, 201);
+                $animal = $this->model->getOneAnimal($id);
+                $this->view->response($animal, 201);
             }
             else
             $this->view->response("No existe la categoria con id=$body->especie", 400);
@@ -182,9 +182,9 @@ class animalesApiController{
 
     public function put($params = []){
         $id = $params[':ID'];
-        $item = $this->model->getOneItem($id);
+        $animal = $this->model->getOneAnimal($id);
 
-        if (!empty($item) && is_numeric($id)) {//se fija que exista el item a modificar
+        if (!empty($animal) && is_numeric($id)) {//se fija que exista el item a modificar
             $body = $this->getData();
 
             if($this->checkVoidInputs($body)){//los campos deben estar completos
@@ -192,12 +192,12 @@ class animalesApiController{
             }else{
                 $category = $this->model->getCat($body->especie);
                 if(!empty($category)){//tiene que existir la categoria
-                    $this->model->modItem($body->nombre, 
+                    $this->model->modAnimal($body->nombre, 
                                             $body->color, 
                                             $body->descripcion, 
                                             $body->especie, 
                                             $id);
-                    $this->view->response($this->model->getOneItem($id), 201);
+                    $this->view->response($this->model->getOneAnimal($id), 201);
                 }
                 else
                 $this->view->response("No existe la categoria con id=$body->especie", 400);
@@ -207,7 +207,7 @@ class animalesApiController{
             $this->view->response("Solo se aceptan id numericos", 400);
         }
         else
-        $this->view->response("item id=$id not found", 404);
+        $this->view->response("Animal id=$id not found", 404);
        
     }
 }

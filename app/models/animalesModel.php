@@ -18,59 +18,42 @@ class animalesModel{
         return $cat;
     }
 
-    function getAllItems($column, $order){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
+    function getAllAnimal($column, $order){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
         $db = $this->conect();
         $sentencia = $db->prepare( "SELECT raza.id,raza.nombre,raza.color,raza.descripcion,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id ORDER BY $column $order");
     
         $sentencia->execute();
-        $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-        return $razas;
+        $animal = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        return $animal;
     }
 
-
-    // function getNombreDeColumnas(){
-    //     $db = $this->conect();
-    //     $sentencia = $db->prepare( "SELECT TABLE_NAME, COLUMN_NAME, COLUMNPROPERTY(OBJECT_ID(TABLE_SCHEMA + '.' + TABLE_NAME), COLUMN_NAME, 'ColumnID') AS COLUMN_ID  
-    //     FROM AdventureWorks2012.INFORMATION_SCHEMA.COLUMNS  
-    //     WHERE TABLE_NAME = 'Person';");
-    
-    //     $sentencia->execute();
-    //     $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-    //     return $razas;
-    // }
-
-    
-
-    function getItemsOfCat($id_especie_fk, $column, $order){
+    function getAnimalOfCat($id_especie_fk, $column, $order){
         $db = $this->conect();
         $sentencia = $db->prepare( "SELECT raza.id,raza.nombre,raza.color,raza.descripcion,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id WHERE especie.nombre = ? ORDER BY $column $order");
         
         $sentencia->execute(array($id_especie_fk));
-        $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-        return $razas;
+        $animal = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        return $animal;
     }
 
-
-
-
-    function getOneItem($id){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
+    function getOneAnimal($id){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
         $db = $this->conect();
     
         $sentencia = $db->prepare( "SELECT raza.*,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id WHERE raza.id = ?");
         
         $sentencia->execute(array($id));
-        $razas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-        return $razas;
+        $animal = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        return $animal;
     }
 
-    function deleteItem($id){
+    function deleteAnimal($id){
         $db = $this->conect();
         $sentencia = $db->prepare( "DELETE FROM raza WHERE id=?");
 
         $sentencia->execute(array($id));
     }
 
-    function addItem($nombre, $color, $descripcion, $especie){
+    function addAnimal($nombre, $color, $descripcion, $especie){
         $db = $this->conect();
         $sentencia = $db->prepare( "INSERT INTO raza(nombre, color, descripcion, id_especie_fk)"."VALUES(?, ?, ?, ?)");
 
@@ -79,7 +62,7 @@ class animalesModel{
         return $db->lastInsertId();
     }
 
-    function modItem($nombre, $color, $descripcion, $especie, $id){
+    function modAnimal($nombre, $color, $descripcion, $especie, $id){
         $db = $this->conect();
         $sentencia = $db->prepare("UPDATE raza SET nombre=? , color=? , descripcion=? , id_especie_fk=? WHERE id=?");
         
