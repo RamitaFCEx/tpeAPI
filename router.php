@@ -1,18 +1,18 @@
 <?php
 require_once 'libs/routerBase.php';
-require_once 'app/controllers/itemsApiController.php';
+require_once 'app/controllers/animalesApiController.php';
 
 $router = new Router();
 
 // tabla de ruteo
-$router->addRoute('animales', 'GET', 'itemsApiController', 'get');
-$router->addRoute('animales/:ID', 'GET', 'itemsApiController', 'get');
+$router->addRoute('animales', 'GET', 'animalesApiController', 'get');
+$router->addRoute('animales/:ID', 'GET', 'animalesApiController', 'get');
 
-$router->addRoute('animales', 'POST', 'itemsApiController', 'post');
+$router->addRoute('animales', 'POST', 'animalesApiController', 'post');
 
-$router->addRoute('animales/:ID', 'PUT', 'itemsApiController', 'put');
+$router->addRoute('animales/:ID', 'PUT', 'animalesApiController', 'put');
 
-$router->addRoute('animales/:ID', 'DELETE', 'itemsApiController', 'deleteItem');
+$router->addRoute('animales/:ID', 'DELETE', 'animalesApiController', 'deleteItem');
 
 
 // rutea

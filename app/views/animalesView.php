@@ -1,5 +1,5 @@
 <?php 
-class itemsView{
+class animalesView{
 
 
     public function response($data, $status) {

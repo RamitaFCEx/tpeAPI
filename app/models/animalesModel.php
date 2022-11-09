@@ -1,5 +1,5 @@
 <?php
-class itemsModel{
+class animalesModel{
 
     function conect(){
         

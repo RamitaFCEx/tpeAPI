@@ -1,14 +1,14 @@
 <?php
-require_once 'app/models/itemsModel.php';
-require_once 'app/views/itemsView.php';
-class itemsApiController{
+require_once 'app/models/animalesModel.php';
+require_once 'app/views/animalesView.php';
+class animalesApiController{
     protected $model;
     protected $view;
     protected $data;
 
     public function __construct(){
-        $this->model = new itemsModel();
-        $this->view = new itemsView();
+        $this->model = new animalesModel();
+        $this->view = new animalesView();
         // lee el body del request
         $this->data = file_get_contents("php://input");
     }
