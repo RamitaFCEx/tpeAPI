@@ -35,6 +35,8 @@ al agregar "?column=id" o "?column=nombre" o "?column=color" o "?column=descripc
 Por defecto se ordena segun la columna nombre
 No se aceptan otros valores, en cuyo caso es un bad request
 
+al agregar "?lenght=$numero" y "?offset=$numero" se puede paginar los items recibidos por la API
+
 USANDO POST:
 usando un JSON aceptable, se pueden crear items, siempre y
 cuando se respeten las reglas de la base de datos
