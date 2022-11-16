@@ -19,6 +19,16 @@ http://localhost/web2/tpeAPI/api/animales
 USANDO GET:
 se obtiene un JSON que contiene todos los items de la tabla razas de la base de datos
 
+Ejemplo de JSON recibido: 
+{
+    "id" : 14
+    "nombre" : "Boxer",
+    "color" : "marronNegro",
+    "descripcion" : "zzz",
+    "id_especie_fk : 9,
+    "especie" : "perro"
+}
+
 al agregar "/$numero" se obtiene un JSON que contiene el item de la tabla
 raza cuyo id = $numero.
 Solo se aceptan valores numericos, otros tipos de datos son un bad request
@@ -40,15 +50,18 @@ Solo se aceptan valores numericos, otros tipos de datos son un bad request
 
 USANDO POST:
 usando un JSON aceptable, se pueden crear items, siempre y
-cuando se respeten las reglas de la base de datos
+cuando se respeten las reglas de la base de datos.
 
 USANDO PUT:
 al agregar "/$numero" se puede modificar el item cuyo id coincida con $numero,
 siempre y cuando se respeten las reglas de la base de datos.
+Se recibira un mensaje informando el exito de modificacion o la 
+ausencia del elemento buscado.
 Solo se aceptan valores numericos, otros tipos de datos son un bad request
 
 USANDO DELETE:
-al agregar "/$numero" se puede borrar el item cuyo id coincida con $numero
+al agregar "/$numero" se puede borrar el item cuyo id coincida con $numero. Se recibira un mensaje informando el exito de borrado o la 
+ausencia del elemento buscado.
 Solo se aceptan valores numericos, otros tipos de datos son un bad request
 
 
