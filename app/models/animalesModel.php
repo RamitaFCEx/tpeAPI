@@ -20,7 +20,7 @@ class animalesModel{
 
     function getAllAnimal($column, $order){//busca todos los animales de la tabla raza y hace join con la tabla especies, necesario para el titulo
         $db = $this->conect();
-        $sentencia = $db->prepare( "SELECT raza.id,raza.nombre,raza.color,raza.descripcion,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id ORDER BY $column $order");
+        $sentencia = $db->prepare( "SELECT raza.id,raza.nombre,raza.color,raza.descripcion,especie.nombre as especie FROM raza JOIN especie ON raza.id_especie_fk = especie.id ORDER BY $column $order"); 
     
         $sentencia->execute();
         $animal = $sentencia->fetchAll(PDO::FETCH_OBJ);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-11-2022 a las 23:10:46
+-- Tiempo de generación: 16-11-2022 a las 01:45:41
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -86,13 +86,9 @@ INSERT INTO `raza` (`id`, `nombre`, `color`, `descripcion`, `id_especie_fk`) VAL
 (18, 'Nautilus', 'blancoRojizo', 'Nautilus (del griego ναυτίλος, \"marinero\") es un género de moluscos cefalópodos del que sobreviven hoy en día tres especies. Reciben el nombre común de nautilos, nombre que comparten con las especies del género Allonautilus, de las que difieren de manera significativa.\r\nSe considera al Nautilus un fósil viviente.', 14),
 (19, 'Pulpo Imitador', 'blancoNegro', 'El pulpo mimo, pulpo imitador o pulpo mimético (Thaumoctopus mimicus) es una especie de molusco cefalópodo del orden Octopoda. Este pulpo es reconocido debido a que tiene la asombrosa habilidad de imitar al menos a otros 15 animales marinos.\r\nVive en los mares tropicales del Sudeste de Asia, y no fue oficialmente descubierto sino hasta 1998, frente a la costa de Célebes, Indonesia.', 15),
 (20, 'Pez Linterna', 'rojizo', 'El pez linterna cornudo es la especie Centrophryne spinulosa, única de su género y única de su familia Centrophrynidae, distribuido por todo el fondo abisal del océano Atlántico y del océano Pacífico.​ El nombre de la familia procede del griego: kentron (aguijón o pica) + phrynos (sapo).', 13),
-(46, 'Pastor aleman', 'negroMarron', 'AAAAaaaa', 9),
-(49, 'Pastor belga', 'negroMarron', 'CCCC', 9),
-(50, 'Pastor suizo', 'blanco', 'ddddd', 9),
-(51, 'Pastor del caucaso', 'marronNegro', 'gggg', 9),
-(52, 'Husky', 'blancoNegroo', 'ffff', 9),
-(53, 'Boxer', 'marronNegro', 'zZZZZZ', 9),
-(56, 'Chow chow', 'marronNegro', 'llllll', 9);
+(58, 'Polar', 'blanco', 'ZZZ', 7),
+(61, 'Tiburon tigre', 'atigrado', 'chanchanchanchanchan', 16),
+(62, 'Peresozo', 'gris', 'zzzz', 7);
 
 -- --------------------------------------------------------
 
@@ -151,7 +147,7 @@ ALTER TABLE `especie`
 -- AUTO_INCREMENT de la tabla `raza`
 --
 ALTER TABLE `raza`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- Restricciones para tablas volcadas
