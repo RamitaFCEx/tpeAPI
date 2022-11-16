@@ -95,7 +95,7 @@ Ejemplo de JSON aceptable para POST o PUT:
 
 POST:
 
-    endpoint: http://localhost/web2/tpeAPI/api/animales/:ID
+    endpoint: http://localhost/web2/tpeAPI/api/animales
 
 -Usando un JSON aceptable, se pueden crear items, siempre y
     cuando se respeten las reglas de la base de datos.
