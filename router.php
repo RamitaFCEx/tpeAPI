@@ -1,6 +1,7 @@
 <?php
 require_once 'libs/routerBase.php';
 require_once 'app/controllers/animalesApiController.php';
+require_once 'app/controllers/especiesApiController.php';
 
 $router = new Router();
 
@@ -13,6 +14,9 @@ $router->addRoute('animales', 'POST', 'animalesApiController', 'post');
 $router->addRoute('animales/:ID', 'PUT', 'animalesApiController', 'put');
 
 $router->addRoute('animales/:ID', 'DELETE', 'animalesApiController', 'delete');
+
+
+$router->addRoute('especies', 'GET', 'especiesApiController', 'get');
 
 
 // rutea
