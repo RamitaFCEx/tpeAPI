@@ -16,6 +16,7 @@ de la tabla especie de la base de dato
 
 ¿COMO SABER QUE ID TIENEN LOS ITEMS DE LA TABLA "ESPECIE"?
 -Con este endpoint especial : http://localhost/web2/tpeAPI/api/animales
+*Solo acepta GET, cualquier parametro que se le pase es ignorado.
 
 para usar la API se debe usar la siguiente url
 http://localhost/web2/tpeAPI/api/animales
