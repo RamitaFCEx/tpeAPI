@@ -18,7 +18,7 @@ REGLAS DE LA BASE DE DATOS:
 
     -Con este endpoint especial : 
     
-    http://localhost/web2/tpeAPI/api/animales
+    http://localhost/web2/tpeAPI/api/especies
     
     *Solo acepta GET, cualquier parametro que se le pase es ignorado.
     
