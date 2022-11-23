@@ -1,6 +1,6 @@
 <?php
 require_once 'app/models/especiesModel.php';
-require_once 'app/views/especiesView.php';
+require_once 'app/views/animalesView.php';
 class especiesApiController{
     protected $model;
     protected $view;
@@ -8,7 +8,7 @@ class especiesApiController{
 
     public function __construct(){
         $this->model = new especiesModel();
-        $this->view = new especiesView();
+        $this->view = new animalesView();
         // lee el body del request
         $this->data = file_get_contents("php://input");
     }
